@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define inf 100000000000
+using namespace std;
+
+ll n,m;
+
+void graph(ll source,vector<pair<ll,ll>> v[100000],ll dist[100000])
+{
+    set<pair<ll,ll>> s;
+	set<pair<ll,ll>>::iterator it;
+    for(int i=0;i<=n;++i)
+        {dist[i]=inf;
+         
+        }
+    dist[source]=0;
+    s.insert(make_pair(0,source));
+    while(!s.empty())
+    {
+        pair<ll,ll> p=*s.begin();
+        ll node=p.second;
+        ll weight=p.first;
+        s.erase(s.begin());
+       
+        for(int i=0;i<v[node].size();++i)
+        {
+         
+            ll check=dist[node]+v[node][i].second;
+           
+           
+            
+            
+            if(dist[v[node][i].first]>=check)
+            {
+                if(dist[v[node][i].first]!=inf)
+                    {it=s.find(make_pair(dist[v[node][i].first],v[node][i].first));
+			if(it==s.end())
+				continue;
+			s.erase(it);
+			}
+                
+               dist[v[node][i].first]=check;
+                s.insert(make_pair(dist[v[node][i].first],v[node][i].first));
+            }
+            
+        }
+       
+    }
+
+}
+int main()
+{
+ int t;
+    cin>>t;
+    while(t--)
+    {
+    cin>>n>>m;
+        vector<pair<ll,ll>> v[100000];
+          ll dist[100000];  
+    ll r1,r2,val;
+    for(int i=0;i<m;++i)
+    {
+      cin>>r1>>r2>>val;
+        v[r1-1].push_back(make_pair(r2-1,val));
+        v[r2-1].push_back(make_pair(r1-1,val));
+    }
+        int source;
+        cin>>source;
+    graph(source-1,v,dist);
+        for(int i=0;i<n;++i)
+        {
+            if(i!=source-1)
+            {
+                if(dist[i]==inf)
+                    cout<<-1<<" ";
+                else
+                cout<<dist[i]<<" ";
+            }
+        }
+        cout<<endl;
+  }
+}
