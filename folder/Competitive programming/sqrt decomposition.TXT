@@ -1,0 +1,106 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define m 1000000007
+#define MAXN 100000
+#define SQRSIZE 1000000
+
+ll arr[MAXN];             
+int block[SQRSIZE];         
+int blk_sz;                     
+ll power(ll b,ll p)
+{
+    if(b==1||p==0)
+        return 1;
+    if(p==1)
+        return b;
+    ll temp=power(b,p/2)%m;
+    if(p%2==0)
+        return (temp%m*temp%m)%m;
+    else
+        return (temp%m*(temp%m*b%m)%m)%m;
+        
+}
+void update(ll idx, ll val)
+{
+    int blockNumber = idx / blk_sz;
+    block[blockNumber] = (block[blockNumber]%m * power(arr[idx],m-2)%m)%m;
+    arr[idx] = arr[idx]-val;
+    block[blockNumber] = (block[blockNumber]%m*arr[idx]%m)%m;
+   
+}
+
+// Time Complexity : O(sqrt(n))
+ll query(int l, int r)
+{
+    ll prod=1;
+    while (l<r and l%blk_sz!=0 and l!=0)
+    {
+        // traversing first block in range
+        prod=(prod%m*arr[l]%m)%m;
+        l++;
+    }
+    while (l+blk_sz <= r)
+    {
+        // traversing completely overlapped blocks in range
+       prod=(prod%m * block[l/blk_sz]%m)%m;
+        l += blk_sz;
+    }
+    while (l<=r)
+    {
+        // traversing last block in range
+        prod=(prod%m * arr[l]%m)%m;
+        l++;
+    }
+    return prod%m;
+}
+
+// Fills values in input[]
+void preprocess(ll input[], int n)
+{
+    // initiating block pointer
+    int blk_idx = -1;
+
+    // calculating size of block
+    blk_sz = sqrt(n);
+
+    // building the decomposed array
+    for (int i=0; i<n; i++)
+    {
+        arr[i] = input[i];
+        if (i%blk_sz == 0)
+        {
+            // entering next block
+            // incementing block pointer
+            blk_idx++;
+        }
+        block[blk_idx] = (block[blk_idx]%m *arr[i]%m)%m;
+    }
+}
+
+// Driver code
+int main()
+{
+int n,d;
+    cin>>n>>d;
+    for(int i=0;i<n;++i)
+        cin>>arr[i];
+    for(int i=0;i<10000;++i)
+        block[i]=1;
+    preprocess(arr, n);
+   
+    while(d--)
+    {
+        int i,j;
+        cin>>i>>j;
+            cout<<query(i-1,j-1)<<endl;
+       ll toy,num;
+        cin>>toy>>num;
+        
+        //cout<<query(1,2)<<endl;
+        update(toy-1,num);
+        
+    }
+  
+    return 0;
+}

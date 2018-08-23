@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+ll merge(int a[100001],int b[100001],int s1,int s2,int c[100001])
+{
+    int i=0,j=0,k=0;
+    ll inv=0;
+    while(i<s1&&j<s2)
+    {
+        if(a[i]<=b[j])
+        {
+            c[k]=a[i];
+            k++;
+            i++;
+        }
+        else{
+            c[k]=b[j];
+            inv+=(s1-i);
+            k++;
+            j++;
+        }
+    }
+    while(i<s1)
+    {
+        c[k]=a[i];
+        i++;
+        k++;
+    }
+    while(j<s2)
+    {
+        c[k]=b[j];
+        j++;
+        k++;
+        
+    }
+    return inv;
+    
+}
+ll mergesort(int arr[100001],int size)
+{
+    if(size<=1)
+    return 0;
+    int mid=(size)/2;
+    int a[100001],b[100001],c[100001];
+    for(int i=0;i<mid;++i)
+        a[i]=arr[i];
+    for(int j=mid,i=0;j<size;j++,i++)
+        b[i]=arr[j];
+    ll ri=mergesort(a,mid);
+   ll li= mergesort(b,size-mid);
+    
+    ll ans=merge(a,b,mid,size-mid,c);
+    for(int i=0;i<size;++i)
+        arr[i]=c[i];
+    return ri+li+ans;
+    
+    
+}
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {int a[100001];
+        int n;
+        cin>>n;
+        for(int i=0;i<n;++i)
+            cin>>a[i];
+            ll an=mergesort(a,n);
+           
+        printf("%Ld\n",an);
+       
+            
+    }
+}
