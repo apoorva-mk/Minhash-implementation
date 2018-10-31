@@ -29,15 +29,15 @@ Steps to run the codes:
 
  1)Open a terminal and run the following command:
  
- 	g++ server.cpp
+ 	$g++ server.cpp
   
-  ./a.out
+  $./a.out
   
  2)Open another terminal and run
  
- 	g++ client.cpp
+ 	$g++ client.cpp
   
-  ./a.out
+  $./a.out
   
   Then enter the string.
   
