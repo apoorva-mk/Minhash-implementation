@@ -31,9 +31,15 @@ Steps to run the codes:
  
  	g++ server.cpp
   
+  ./a.out
+  
  2)Open another terminal and run
  
  	g++ client.cpp
+  
+  ./a.out
+  
+  Then enter the string.
   
 
 
