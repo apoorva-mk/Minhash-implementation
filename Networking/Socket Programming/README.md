@@ -31,13 +31,13 @@ Steps to run the codes:
  
  	$g++ server.cpp
   
-  $./a.out
+  Then run the executable
   
  2)Open another terminal and run
  
  	$g++ client.cpp
   
-  $./a.out
+  Run the executable
   
   Then enter the string.
   
